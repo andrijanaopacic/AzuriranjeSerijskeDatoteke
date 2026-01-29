@@ -9,5 +9,11 @@ void ispisi_listu(PROIZVOD* proizvodi, int br_proizvoda);
 void ispisi_gresku_kolicina(PROIZVOD* p, unsigned trazena_kolicina);
 void ispisi_gresku_proizvod(unsigned id);
 
+void demo_pauza(void);
+void demo_naslov(const char* tekst);
+void demo_tekst_osnovni_slucaj(void);
+
+void demo_ispisi_transakcije(const char* path);
+void demo_ispisi_maticnu(const char* path);
 
 #endif

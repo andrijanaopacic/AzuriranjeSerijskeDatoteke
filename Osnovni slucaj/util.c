@@ -3,7 +3,6 @@
 #include <string.h>
 #include <errno.h>
 
-// globalni fajl objekti
 FILE* maticna = NULL;
 FILE* mat_tek = NULL;
 FILE* mat_nova = NULL;
@@ -16,7 +15,6 @@ FILE* err_kolicina = NULL;
 FILE* nov_proizvod = NULL;
 FILE* err_proizvod = NULL;
 
-// helper funkcije
 static void print_fopen_error(const char* action, const char* path);
 int file_exists(const char* path);
 void copy_file(const char* src, const char* dest);

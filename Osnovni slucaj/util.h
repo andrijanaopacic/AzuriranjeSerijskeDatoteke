@@ -27,7 +27,6 @@ typedef struct transakcija {
     unsigned Kolicina;
 } TRANSAKCIJA;
 
-/* globalni fajlovi */
 extern FILE* maticna, * mat_tek, * mat_nova;
 extern FILE* transakciona, * tran_tek;
 extern FILE* promene, * err_kolicina, * nov_proizvod, * err_proizvod;

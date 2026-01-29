@@ -1,4 +1,3 @@
-﻿  misc.c
-C:\Users\Andrijana\source\repos\ASDProjekatAndrijanaAndjela\Osnovni slucaj\misc.c(7,6): warning C4029: declared formal parameter list different from definition
-C:\Users\Andrijana\source\repos\ASDProjekatAndrijanaAndjela\Osnovni slucaj\misc.c(11,5): warning C4013: 'get_today_string' undefined; assuming extern returning int
+﻿  kki.c
+C:\Users\Andrijana\source\repos\ASDProjekatAndrijanaAndjela\Osnovni slucaj\kki.c(89,14): warning C4013: 'ucitaj_transakcije' undefined; assuming extern returning int
   Osnovni slucaj.vcxproj -> C:\Users\Andrijana\source\repos\ASDProjekatAndrijanaAndjela\x64\Debug\Osnovni slucaj.exe
