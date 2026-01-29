@@ -60,7 +60,7 @@ void createDemoTransakcione(const char* path, TRANSAKCIJA* niz, size_t n, const 
 	printf("Demo transakciona.dat za %s kreirana: %s\n", msg, path);
 }
 
-int main() {
+/*int main() {
 	createFolder(".\\ASD");
 	createFolder(".\\ASD\\DATA");
 	createFolder(".\\ASD\\DATA\\OLD");
@@ -170,4 +170,4 @@ int main() {
 
 	printf("Svi folderi i demo fajlovi kreirani.\n");
 	return 0;
-}
+}*/
