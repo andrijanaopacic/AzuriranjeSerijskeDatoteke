@@ -1,7 +1,6 @@
 #include "datoteka.h"
 #include <stdio.h>
 #include <time.h>
-#include <string.h>
 
 int fajl_postoji(const char* path) {
     FILE* f = fopen(path, "rb");
@@ -46,11 +45,4 @@ void danasnji_datum(char* buf, size_t size) {
     time_t t = time(NULL);
     struct tm* tm_info = localtime(&t);
     strftime(buf, size, "%y%m%d", tm_info);
-}
-
-void sacuvaj_stari_fajl(const char* src_path, const char* old_folder, const char* prefix) {
-    char datum[7]; danasnji_datum(datum, sizeof(datum));
-    char dest[256];
-    sprintf(dest, "%s\\%s_%s.dat", old_folder, prefix, datum);
-    kopiraj_fajl(src_path, dest);
 }

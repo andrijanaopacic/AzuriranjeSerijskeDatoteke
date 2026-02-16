@@ -5,11 +5,8 @@
 
 int ucitaj_maticnu(const char* path, PROIZVOD niz[], int max_br);
 int ucitaj_transakcije(const char* path, TRANSAKCIJA niz[], int max_br);
-
 int fajl_postoji(const char* path);
 void kopiraj_fajl(const char* src, const char* dest);
-
 void danasnji_datum(char* buf, size_t size);
-void sacuvaj_stari_fajl(const char* src_path, const char* old_folder, const char* prefix);
 
 #endif

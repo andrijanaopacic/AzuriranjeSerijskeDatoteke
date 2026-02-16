@@ -3,11 +3,8 @@
 
 #include "util.h"
 
-void demo_pauza(void);
-void demo_naslov(const char* tekst);
 void demo_ispisi_maticnu(const char* path);
 void demo_ispisi_transakcije(const char* path);
-void demo_ispisi_tran_sum(const char* path);
 void demo_stampaj_rpt(const char* path);
 
 #endif

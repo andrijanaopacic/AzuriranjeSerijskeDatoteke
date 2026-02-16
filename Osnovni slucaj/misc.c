@@ -1,115 +1,97 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "misc.h"
-#include "kki.h"
 #include "datoteka.h"
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <string.h>
+#include <math.h>
 
 void obradi_osnovni_slucaj(PROIZVOD* proizvodi, int br_proizvoda,
-    TRANSAKCIJA* transakcije, int br_transakcija)
+    TRANSAKCIJA* transakcije, int br_transakcija,
+    const char* mat_nova_path, const char* promene_rpt)
 {
-    char datum[16];
-    get_today_string(datum, sizeof(datum));
+    char rpt_putanja[256];
+    char datum[10];
+    danasnji_datum(datum, sizeof(datum));
 
-    
-    char prom_rpt[256], err_kol_rpt[256], err_pro_rpt[256];
-    char tran_sum[256], stara_mat[256];
-
-    snprintf(prom_rpt, sizeof(prom_rpt),
-        ".\\ASDProjekatAndrijanaAndjela\\ASD\\RPT\\prom_%s.rpt", datum);
-
-    snprintf(err_kol_rpt, sizeof(err_kol_rpt),
-        ".\\ASDProjekatAndrijanaAndjela\\ASD\\ERR\\err_kol_%s.rpt", datum);
-
-    snprintf(err_pro_rpt, sizeof(err_pro_rpt),
-        ".\\ASDProjekatAndrijanaAndjela\\ASD\\ERR\\err_pro_%s.rpt", datum);
-
-    snprintf(tran_sum, sizeof(tran_sum),
-        ".\\ASDProjekatAndrijanaAndjela\\ASD\\DATA\\OLD\\tran_%s.dat", datum);
-
-    snprintf(stara_mat, sizeof(stara_mat),
-        ".\\ASDProjekatAndrijanaAndjela\\ASD\\DATA\\OLD\\mat_%s.dat", datum);
-
-  
-    promene = fopen(prom_rpt, "w");
-    err_kolicina = fopen(err_kol_rpt, "w");
-    err_proizvod = fopen(err_pro_rpt, "w");
-
-    if (!promene || !err_kolicina || !err_proizvod) {
-        printf("Greska pri otvaranju izvestaja.\n");
-        return;
+    if (promene_rpt == NULL) {
+        sprintf(rpt_putanja, ".\\ASD\\RPT\\prom_%s.rpt", datum);
+    }
+    else {
+        strcpy(rpt_putanja, promene_rpt);
     }
 
-    copy_file(".\\ASDProjekatAndrijanaAndjela\\ASD\\DATA\\maticna.dat", stara_mat);
+    char tran_sum_path[256];
+    sprintf(tran_sum_path, ".\\ASD\\DATA\\OLD\\tran_%s.dat", datum);
 
-    TRANSAKCIJA* sum = (TRANSAKCIJA*)calloc(br_proizvoda, sizeof(TRANSAKCIJA));
-    if (!sum) return;
+    // 1. OTVARANJE IZVESTAJA
+    FILE* f_prom = fopen(rpt_putanja, "w");
+    if (!f_prom) return;
 
-    for (int i = 0; i < br_proizvoda; i++) {
-        sum[i].Id = proizvodi[i].Id;
-        sum[i].Kolicina = 0;
-        sum[i].Promena = 0;
-    }
+    fprintf(f_prom, "Izvestaj o promenama za dan %s\n", datum);
+    fprintf(f_prom, "%-5s %-15s %-10s %-5s %-10s %-10s\n", "Id", "Naziv", "Staro", "Tip", "Prom", "Novo");
+    fprintf(f_prom, "------------------------------------------------------------\n");
 
-    for (int i = 0; i < br_transakcija; i++) {
-        int found = 0;
+    // 2. AGREGACIJA I AZURIRANJE (Sortirano po Id-u)
+    TRANSAKCIJA sumirane[100];
+    int br_sumiranih = 0;
 
-        for (int j = 0; j < br_proizvoda; j++) {
+    // Idemo redom kroz PROIZVODE (jer su oni vec sortirani po Id-u)
+    for (int j = 0; j < br_proizvoda; j++) {
+        int ukupna_suma = 0;
+        int nadjena_transakcija = 0;
+
+        // Za trenutni proizvod trazimo sve njegove transakcije
+        for (int i = 0; i < br_transakcija; i++) {
             if (transakcije[i].Id == proizvodi[j].Id) {
-                found = 1;
-                unsigned stara = proizvodi[j].Kolicina;
-
+                nadjena_transakcija = 1;
                 if (transakcije[i].Promena == ULAZ) {
-                    proizvodi[j].Kolicina += transakcije[i].Kolicina;
-                    sum[j].Kolicina += transakcije[i].Kolicina;
+                    ukupna_suma += (int)transakcije[i].Kolicina;
                 }
-                else { 
-                    if (transakcije[i].Kolicina <= proizvodi[j].Kolicina) {
-                        proizvodi[j].Kolicina -= transakcije[i].Kolicina;
-                        sum[j].Kolicina -= transakcije[i].Kolicina;
-                    }
-                    else {
-                        ispisi_gresku_kolicina(&proizvodi[j],
-                            transakcije[i].Kolicina);
-                        continue;
-                    }
+                else {
+                    ukupna_suma -= (int)transakcije[i].Kolicina;
                 }
-
-                ispisi_promenu(&proizvodi[j], stara);
-                break;
             }
         }
 
-        if (!found) {
-            ispisi_gresku_proizvod(transakcije[i].Id);
+        // Ako smo nasli bar jednu transakciju za ovaj proizvod
+        if (nadjena_transakcija) {
+            unsigned staro_stanje = proizvodi[j].Kolicina;
+
+            // Azuriramo stanje u memoriji
+            proizvodi[j].Kolicina += ukupna_suma;
+
+            // Dodajemo u sumarnu listu (koja ce sada biti sortirana)
+            sumirane[br_sumiranih].Id = proizvodi[j].Id;
+            sumirane[br_sumiranih].Promena = (ukupna_suma >= 0) ? ULAZ : IZLAZ;
+            sumirane[br_sumiranih].Kolicina = (unsigned)abs(ukupna_suma);
+            br_sumiranih++;
+
+            // Upisujemo u tekstualni izvestaj (rpt)
+            fprintf(f_prom, "%-5u %-15s %-10u %-5s %-10u %-10u\n",
+                proizvodi[j].Id,
+                proizvodi[j].Naziv,
+                staro_stanje,
+                (ukupna_suma >= 0 ? "+" : "-"),
+                abs(ukupna_suma),
+                proizvodi[j].Kolicina);
         }
     }
 
-    FILE* f_tran = fopen(tran_sum, "wb");
-    if (f_tran) {
-        for (int i = 0; i < br_proizvoda; i++) {
-            if (sum[i].Kolicina != 0) {
-                sum[i].Promena = (sum[i].Kolicina > 0) ? ULAZ : IZLAZ;
-                sum[i].Kolicina = abs(sum[i].Kolicina);
-                fwrite(&sum[i], sizeof(TRANSAKCIJA), 1, f_tran);
-            }
-        }
-        fclose(f_tran);
+    // 3. SNIMANJE BINARNIH DATOTEKA
+    // Snimi sumarnu transakcionu (tran_ggmmdd.dat)
+    FILE* f_tran_sum = fopen(tran_sum_path, "wb");
+    if (f_tran_sum) {
+        fwrite(sumirane, sizeof(TRANSAKCIJA), br_sumiranih, f_tran_sum);
+        fclose(f_tran_sum);
     }
 
-    free(sum);
-
-    FILE* f_mat = fopen(".\\ASDProjekatAndrijanaAndjela\\ASD\\DATA\\maticna.dat", "wb");
+    // Snimi novu maticnu (maticna.dat)
+    FILE* f_mat = fopen(mat_nova_path, "wb");
     if (f_mat) {
         fwrite(proizvodi, sizeof(PROIZVOD), br_proizvoda, f_mat);
         fclose(f_mat);
     }
 
-    fclose(promene);
-    fclose(err_kolicina);
-    fclose(err_proizvod);
+    fclose(f_prom);
 }
-
-
-
-
