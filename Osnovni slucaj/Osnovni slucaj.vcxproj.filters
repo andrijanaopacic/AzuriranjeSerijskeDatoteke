@@ -18,31 +18,8 @@
     <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="util.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="datoteka.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="misc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="kki.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="util.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="kki.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="datoteka.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="misc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
