@@ -1,0 +1,12 @@
+﻿  main.c
+  misc.c
+C:\Users\Andrijana\Desktop\ASDProjekatAndrijanaAndjela\ASDProjekatAndrijanaAndjela\Osnovni slucaj\main.c(1,9): warning C4005: '_CRT_SECURE_NO_WARNINGS': macro redefinition
+      C:\Users\Andrijana\Desktop\ASDProjekatAndrijanaAndjela\ASDProjekatAndrijanaAndjela\Osnovni slucaj\main.c(1,9):
+      '_CRT_SECURE_NO_WARNINGS' previously declared on the command line
+  
+C:\Users\Andrijana\Desktop\ASDProjekatAndrijanaAndjela\ASDProjekatAndrijanaAndjela\Osnovni slucaj\misc.c(1,9): warning C4005: '_CRT_SECURE_NO_WARNINGS': macro redefinition
+      C:\Users\Andrijana\Desktop\ASDProjekatAndrijanaAndjela\ASDProjekatAndrijanaAndjela\Osnovni slucaj\misc.c(1,9):
+      '_CRT_SECURE_NO_WARNINGS' previously declared on the command line
+  
+  Generating Code...
+  Osnovni slucaj.vcxproj -> C:\Users\Andrijana\Desktop\ASDProjekatAndrijanaAndjela\ASDProjekatAndrijanaAndjela\x64\Debug\Osnovni slucaj.exe

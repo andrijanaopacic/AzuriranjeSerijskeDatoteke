@@ -1,0 +1,12 @@
+﻿  main.c
+  misc.c
+C:\Users\Andrijana\Desktop\ASDProjekatAndrijanaAndjela\ASDProjekatAndrijanaAndjela\Nepostojeca kolicina\main.c(1,9): warning C4005: '_CRT_SECURE_NO_WARNINGS': macro redefinition
+      C:\Users\Andrijana\Desktop\ASDProjekatAndrijanaAndjela\ASDProjekatAndrijanaAndjela\Nepostojeca kolicina\main.c(1,9):
+      '_CRT_SECURE_NO_WARNINGS' previously declared on the command line
+  
+C:\Users\Andrijana\Desktop\ASDProjekatAndrijanaAndjela\ASDProjekatAndrijanaAndjela\Nepostojeca kolicina\misc.c(1,9): warning C4005: '_CRT_SECURE_NO_WARNINGS': macro redefinition
+      C:\Users\Andrijana\Desktop\ASDProjekatAndrijanaAndjela\ASDProjekatAndrijanaAndjela\Nepostojeca kolicina\misc.c(1,9):
+      '_CRT_SECURE_NO_WARNINGS' previously declared on the command line
+  
+  Generating Code...
+  Nepostojeca kolicina.vcxproj -> C:\Users\Andrijana\Desktop\ASDProjekatAndrijanaAndjela\ASDProjekatAndrijanaAndjela\x64\Debug\Nepostojeca kolicina.exe
